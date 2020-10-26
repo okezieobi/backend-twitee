@@ -1,7 +1,7 @@
 import { validationResult, checkSchema } from 'express-validator';
 
 import UserSchema from './user';
-import EntrySchema from './entry';
+import TwitSchema from './twit';
 
 const handleValidationErr = (req, res, next) => {
   const errors = validationResult(req);
@@ -10,7 +10,7 @@ const handleValidationErr = (req, res, next) => {
 };
 
 const userSchema = new UserSchema(checkSchema);
-const entrySchema = new EntrySchema(checkSchema);
+const twitSchema = new TwitSchema(checkSchema);
 
 export default {
   user: {
@@ -19,7 +19,7 @@ export default {
     jwt: [userSchema.validateJWT, handleValidationErr],
   },
   entry: {
-    create: [entrySchema.validateInput, handleValidationErr],
-    id: [entrySchema.validateEntryId, handleValidationErr],
+    create: [twitSchema.validateInput, handleValidationErr],
+    id: [twitSchema.validateEntryId, handleValidationErr],
   },
 };

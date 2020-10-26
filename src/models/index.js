@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
 import UserModel from './user';
-import EntryModel from './entry';
+import EntryModel from './twit';
 import env from '../utils/env';
 
 const sequelize = new Sequelize(env.databaseURL, { ssl: true, dialect: 'postgres', logging: false });

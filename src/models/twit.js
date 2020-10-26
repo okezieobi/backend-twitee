@@ -1,6 +1,6 @@
 import { Model, DataTypes, Op } from 'sequelize';
 
-export default class Entry extends Model {
+export default class Twit extends Model {
   static async createOne({ title, body, id }, transaction) {
     return this.create({
       title,
@@ -9,20 +9,6 @@ export default class Entry extends Model {
     }, {
       transaction,
     });
-  }
-
-  static async updateOne({
-    title, body, UserId, id,
-  }, transaction) {
-    await this.update({ title, body }, {
-      where: {
-        [Op.and]: [
-          { UserId }, { id },
-        ],
-      },
-      transaction,
-    });
-    return this.findOneByOwnerId({ UserId, id }, transaction);
   }
 
   static async findAllByOwnerId(id, transaction) {
@@ -62,12 +48,7 @@ export default class Entry extends Model {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      title: {
-        type: DataTypes.STRING(256),
-        allowNull: false,
-        notEmpty: true,
-      },
-      body: {
+      content: {
         type: DataTypes.TEXT,
         allowNull: false,
         notEmpty: true,
@@ -75,7 +56,7 @@ export default class Entry extends Model {
     },
     {
       sequelize,
-      modelName: 'Entry',
+      modelName: 'Twit',
     });
   }
 }

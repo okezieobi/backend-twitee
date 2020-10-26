@@ -1,21 +1,7 @@
-export default class EntrySchema {
+export default class TwitSchema {
   constructor(checkSchema) {
     this.validateInput = checkSchema({
-      title: {
-        in: ['body'],
-        isLength: {
-          errorMessage: 'Entry title should be at most 256 characters long',
-          options: { min: 1, max: 256 },
-        },
-        isString: {
-          errorMessage: 'Entry title must be string data type',
-        },
-        exists: {
-          errorMessage: 'Entry title is required',
-          options: { checkFalsy: true },
-        },
-      },
-      body: {
+      content: {
         in: ['body'],
         isLength: {
           errorMessage: 'Entry body should be at least 1 character long',

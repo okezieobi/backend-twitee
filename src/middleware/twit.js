@@ -1,6 +1,6 @@
 export default class EntryMiddleware {
   constructor(services) {
-    this.services = services.entry;
+    this.services = services.twit;
     this.findOneById = this.findOneById.bind(this);
   }
 
