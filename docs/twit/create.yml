@@ -1,9 +1,9 @@
 paths:
-  /entries/:                # path of the user from your endpoint
+  /twits/:                # path of the user from your endpoint
     post:                 # endpoint request type (post request)
       tags:               # Tag property
-        - Entry            # Value of the tag
-      summary: creates a diary entry as an authenticated user
+        - Twit            # Value of the tag
+      summary: creates a twit as an authenticated user
       security:
        - ApiKeyAuth: []
       requestBody:
@@ -14,15 +14,12 @@ paths:
               $ref: '#/components/schemas/create'
       responses:          # server responses
         201:
-          description: An object with entry details
+          description: An object with twits details
 components:        # Schema definition for request body
  schemas:
   create:
     properties:
-          title:
-            type: string
-          body:
+          content:
             type: string
     required:
-      - title
-      - body
+      - content
