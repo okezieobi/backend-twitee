@@ -38,7 +38,7 @@ export default class User extends Model {
   }
 
   static associate(models) {
-    this.hasManyEntries = this.hasMany(models.entry, {
+    this.hasManyEntries = this.hasMany(models.twit, {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: {

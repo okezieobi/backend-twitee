@@ -11,10 +11,12 @@ export default class Twit extends Model {
   }
 
   static async findAllByOwnerId(id, transaction) {
-    return this.findAll({
+    return this.findAndCountAll({
       where: {
         UserId: id,
       },
+      offset: 0,
+      limit: 50,
       transaction,
     });
   }

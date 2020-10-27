@@ -12,8 +12,8 @@ export default class EntryServices {
 
   async findByOwner(arg) {
     return this.models.sequelize.transaction(async (t) => {
-      const entries = await this.models.twit.findAllByOwnerId(arg, t);
-      return { entries, status: 200 };
+      const twits = await this.models.twit.findAllByOwnerId(arg, t);
+      return { twits, status: 200 };
     });
   }
 
