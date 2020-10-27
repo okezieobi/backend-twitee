@@ -24,7 +24,7 @@ Object.values(models)
     await sequelize.sync({ force: true, match: /dev$/ });
   }
   */
-  // no sequelize.sync(); use migrations after writing models for tests and production
+  // no sequelize.sync() here, use migrations after writing models for tests and production
   await sequelize.sync({ alter: true });
 })();
 
