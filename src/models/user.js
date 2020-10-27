@@ -64,7 +64,7 @@ export default class User extends Model {
           type: DataTypes.STRING(256),
           get() {
             const atIndex = this.email.indexOf('@');
-            return this.email.splice(0, atIndex);
+            return this.email.slice(0, atIndex);
           },
         },
         email: {
