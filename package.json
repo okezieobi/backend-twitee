@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "DEBUG=server-my-diary-demo-v1:* nodemon --exec babel-node src/bin/www.js",
+    "dev": "DEBUG=backend-twitee:* nodemon --exec babel-node src/bin/www.js",
     "release": "npm run clean && npm run build-app && npm run start",
     "clean": "rm -rf dist && mkdir dist",
     "build": "npm run clean && npm run build-app && npm run migrate",
@@ -23,10 +23,10 @@
     "seed-db:undo": "npx sequelize-cli db:seed:undo:all",
     "pretest": "NODE_ENV=test npm run migrate && NODE_ENV=test npm run seed-db",
     "posttest": "NODE_ENV=test npm run seed-db:undo && NODE_ENV=test npm run migrate:undo",
-    "migration-skeleton:user": "NODE_ENV=test npx sequelize-cli migration:generate --name User",
-    "migration-skeleton:entry": "NODE_ENV=test npx sequelize-cli migration:generate --name Entry",
-    "seed-skeleton:user": "NODE_ENV=test npx sequelize-cli seed:generate --name User",
-    "seed-skeleton:entry": "NODE_ENV=test npx sequelize-cli seed:generate --name Entry"
+    "migration-skeleton:user": "NODE_ENV=test npx sequelize-cli migration:generate --name user",
+    "migration-skeleton:twit": "NODE_ENV=test npx sequelize-cli migration:generate --name twit",
+    "seed-skeleton:user": "NODE_ENV=test npx sequelize-cli seed:generate --name user",
+    "seed-skeleton:twit": "NODE_ENV=test npx sequelize-cli seed:generate --name entry"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

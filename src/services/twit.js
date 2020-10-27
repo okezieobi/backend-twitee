@@ -5,7 +5,7 @@ export default class EntryServices {
 
   async create(arg) {
     return this.models.sequelize.transaction(async (t) => {
-      const entry = await this.models.twit.createOne(arg, t);
+      const twit = await this.models.twit.createOne(arg, t);
       return { twit, status: 201 };
     });
   }
@@ -22,7 +22,7 @@ export default class EntryServices {
       let data;
       const twit = await this.models.twit.findOneByOwnerId(arg, t);
       if (twit) data = { twit, status: 200 };
-      else data = { message: 'Entry not found', status: 404 };
+      else data = { message: 'Twit not found', status: 404 };
       return data;
     });
   }

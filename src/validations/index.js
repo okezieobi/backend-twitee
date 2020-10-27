@@ -18,7 +18,7 @@ export default {
     login: [userSchema.validateLogin, handleValidationErr],
     jwt: [userSchema.validateJWT, handleValidationErr],
   },
-  entry: {
+  twit: {
     create: [twitSchema.validateInput, handleValidationErr],
     id: [twitSchema.validateEntryId, handleValidationErr],
   },

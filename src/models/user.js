@@ -1,4 +1,4 @@
-import { Model, DataTypes, Op } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
 import bcryptUtil from '../utils/bcrypt';
 
@@ -7,9 +7,7 @@ export default class User extends Model {
     await this.create(user, { transaction });
     return this.findOne({
       where: {
-        [Op.and]: [
-          { email: user.email }, { username: user.username },
-        ],
+        email: user.email,
       },
       transaction,
       attributes: {
@@ -18,12 +16,10 @@ export default class User extends Model {
     });
   }
 
-  static async findByUnique({ email, username }, transaction, exclude = []) {
+  static async findByUnique({ email }, transaction, exclude = []) {
     return this.findOne({
       where: {
-        [Op.or]: [
-          { email }, { username },
-        ],
+        email,
       },
       transaction,
       attributes: {
@@ -59,16 +55,17 @@ export default class User extends Model {
           defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
-        fullName: {
+        name: {
           type: DataTypes.STRING(256),
           allowNull: false,
           notEmpty: true,
         },
         username: {
           type: DataTypes.STRING(256),
-          allowNull: false,
-          unique: true,
-          notEmpty: true,
+          get() {
+            const atIndex = this.email.indexOf('@');
+            return this.email.splice(0, atIndex);
+          },
         },
         email: {
           type: DataTypes.STRING(256),

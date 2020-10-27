@@ -1,10 +1,9 @@
 import { Model, DataTypes, Op } from 'sequelize';
 
 export default class Twit extends Model {
-  static async createOne({ title, body, id }, transaction) {
+  static async createOne({ content, id }, transaction) {
     return this.create({
-      title,
-      body,
+      content,
       UserId: id,
     }, {
       transaction,

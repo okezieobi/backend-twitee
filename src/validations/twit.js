@@ -4,14 +4,14 @@ export default class TwitSchema {
       content: {
         in: ['body'],
         isLength: {
-          errorMessage: 'Entry body should be at least 1 character long',
+          errorMessage: 'Twit body should be at least 1 character long',
           options: { min: 1 },
         },
         isString: {
-          errorMessage: 'Entry body must be string data type',
+          errorMessage: 'Twit body must be string data type',
         },
         exists: {
-          errorMessage: 'Entry body is required',
+          errorMessage: 'Twit body is required',
           options: { checkFalsy: true },
         },
       },
@@ -21,7 +21,7 @@ export default class TwitSchema {
       id: {
         in: ['params'],
         isUUID: {
-          errorMessage: 'Entry id does not match UUID format',
+          errorMessage: 'Twit id does not match UUID format',
         },
       },
     });

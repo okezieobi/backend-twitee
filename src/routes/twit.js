@@ -10,12 +10,12 @@ export default (Router) => {
   const router = Router();
 
   router.route('/')
-    .post([...[validations.entry.create], controllers.entry.createOne], handleResponse)
-    .get([controllers.entry.findAll], handleResponse);
+    .post([...[validations.twit.create], controllers.twit.createOne], handleResponse)
+    .get([controllers.twit.findAll], handleResponse);
 
-  router.use('/:id', [...[validations.entry.id], middleware.entry.findOneById]);
+  router.use('/:id', [...[validations.twit.id], middleware.twit.findOneById]);
   router.route('/:id')
-    .put(controllers.entry.updateOne, handleResponse);
+    .get(handleResponse);
 
   return router;
 };
