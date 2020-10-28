@@ -1,6 +1,6 @@
 import jwt from '../utils/jwt';
 
-export default class UserMiddleWare {
+export default class User {
   constructor(services) {
     this.services = services.user;
     this.findById = this.findById.bind(this);

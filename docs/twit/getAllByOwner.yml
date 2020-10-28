@@ -1,9 +1,9 @@
 paths:
-  /twits/all:                # path of the user from your endpoint
+  /twits/:                # path of the user from your endpoint
     get:                 # endpoint request type (post request)
       tags:               # Tag property
         - Twit           # Value of the tag
-      summary: gets all associated twits of all users as an authenticated user
+      summary: gets all associated twits of an authenticated user
       security:
        - ApiKeyAuth: []
       responses:          # server responses

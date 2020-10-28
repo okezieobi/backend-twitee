@@ -1,4 +1,4 @@
-export default class EntryMiddleware {
+export default class Twit {
   constructor(services) {
     this.services = services;
     this.findOneById = this.findOneById.bind(this);

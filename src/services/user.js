@@ -1,6 +1,6 @@
 import bcrypt from '../utils/bcrypt';
 
-export default class UserServices {
+export default class User {
   constructor(models) {
     this.models = models;
   }

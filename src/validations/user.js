@@ -1,4 +1,4 @@
-export default class UserSchemas {
+export default class User {
   constructor(checkSchema) {
     this.validateLogin = checkSchema({
       email: {

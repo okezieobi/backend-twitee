@@ -1,4 +1,4 @@
-export default class TwitSchema {
+export default class Twit {
   constructor(checkSchema) {
     this.validateInput = checkSchema({
       content: {

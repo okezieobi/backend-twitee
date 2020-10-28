@@ -1,7 +1,8 @@
-export default class EntryController {
+export default class Twit {
   constructor(services) {
     this.services = services.twit;
     this.createOne = this.createOne.bind(this);
+    this.findAllByOwner = this.findAllByOwner.bind(this);
     this.findAll = this.findAll.bind(this);
   }
 
@@ -18,9 +19,19 @@ export default class EntryController {
     }
   }
 
-  async findAll(req, res, next) {
+  async findAllByOwner(req, res, next) {
     try {
       const data = await this.services.findByOwner(res.locals.userId);
+      res.locals.data = data;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async findAll(req, res, next) {
+    try {
+      const data = await this.services.findEvery();
       res.locals.data = data;
       next();
     } catch (err) {

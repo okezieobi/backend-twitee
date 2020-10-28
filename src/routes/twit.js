@@ -10,9 +10,11 @@ export default (Router) => {
 
   const router = Router();
 
+  router.get('/all', controllers.twit.findAll, handleResponse);
+
   router.route('/')
     .post([...[validations.twit.create], controllers.twit.createOne], handleResponse)
-    .get([controllers.twit.findAll], handleResponse);
+    .get(controllers.twit.findAllByOwner, handleResponse);
 
   router.use('/:id', [...[validations.twit.id], middleware.twit.findOneById]);
   router.route('/:id')

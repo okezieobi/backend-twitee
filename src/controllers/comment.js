@@ -1,4 +1,4 @@
-export default class CommentController {
+export default class Comment {
   constructor(services) {
     this.services = services.comment;
     this.createOne = this.createOne.bind(this);

@@ -1,4 +1,4 @@
-export default class CommentSchema {
+export default class Comment {
   constructor(checkSchema) {
     this.validateInput = checkSchema({
       content: {

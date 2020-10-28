@@ -1,4 +1,4 @@
-export default class CommentServices {
+export default class Comment {
   constructor(models) {
     this.models = models;
   }

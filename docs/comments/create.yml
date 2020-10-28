@@ -1,23 +1,30 @@
 paths:
-  /twits/:                # path of the user from your endpoint
+  /twits/{id}/comments:                # path of the user from your endpoint
     post:                 # endpoint request type (post request)
       tags:               # Tag property
-        - Twit            # Value of the tag
-      summary: creates a twit as an authenticated user
+        - Comment            # Value of the tag
+      summary: creates a comment to a twit as an authenticated user
       security:
        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of twit to be be commented on.
+          schema:
+            type: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/create_twit'
+              $ref: '#/components/schemas/create_comment'
       responses:          # server responses
         201:
           description: An object with twits details
 components:        # Schema definition for request body
  schemas:
-  create_twit:
+  create_comment:
     properties:
           content:
             type: string

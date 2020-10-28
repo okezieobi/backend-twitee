@@ -1,4 +1,4 @@
-export default class UserController {
+export default class User {
   constructor(services) {
     this.services = services.user;
     this.login = this.login.bind(this);

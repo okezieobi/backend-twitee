@@ -1,4 +1,4 @@
-export default class EntryServices {
+export default class Twit {
   constructor(models) {
     this.models = models;
   }
