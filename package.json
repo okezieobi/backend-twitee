@@ -10,7 +10,7 @@
     "dev": "DEBUG=backend-twitee:* nodemon --exec babel-node src/bin/www.js",
     "release": "npm run clean && npm run build-app && npm run start",
     "clean": "rm -rf dist && mkdir dist",
-    "build": "npm run clean && npm run build-app && npm run migrate",
+    "build": "npm run clean && npm run build-app",
     "build-app": "babel src -s -d dist --presets=@babel/env",
     "start": "node dist/bin/www.js"
 
