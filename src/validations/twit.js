@@ -4,20 +4,20 @@ export default class TwitSchema {
       content: {
         in: ['body'],
         isLength: {
-          errorMessage: 'Twit body should be at least 1 character long',
+          errorMessage: 'Twit content should be at least 1 character long',
           options: { min: 1 },
         },
         isString: {
-          errorMessage: 'Twit body must be string data type',
+          errorMessage: 'Twit content must be string data type',
         },
         exists: {
-          errorMessage: 'Twit body is required',
+          errorMessage: 'Twit content is required',
           options: { checkFalsy: true },
         },
       },
     });
 
-    this.validateEntryId = checkSchema({
+    this.validateTwitId = checkSchema({
       id: {
         in: ['params'],
         isUUID: {
