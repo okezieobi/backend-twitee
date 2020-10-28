@@ -1,10 +1,12 @@
 import services from '../services';
 import UserController from './user';
-import EntryController from './entry';
+import TwitController from './twit';
+import CommentController from './comment';
 
 const user = new UserController(services);
-const entry = new EntryController(services);
+const twit = new TwitController(services);
+const comment = new CommentController(services);
 
 export default {
-  user, entry,
+  user, twit, comment,
 };

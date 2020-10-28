@@ -1,4 +1,4 @@
-export default class UserController {
+export default class User {
   constructor(services) {
     this.services = services.user;
     this.login = this.login.bind(this);
@@ -20,7 +20,7 @@ export default class UserController {
 
   async login({ body }, res, next) {
     try {
-      const data = await this.services.auth({ user: body.user, password: body.password });
+      const data = await this.services.auth(body);
       if (data.message) next(data);
       else {
         res.locals.data = data;

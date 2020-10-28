@@ -1,10 +1,12 @@
 import models from '../models';
 import UserServices from './user';
-import EntryServices from './entry';
+import TwitServices from './twit';
+import CommentServices from './comment';
 
 const user = new UserServices(models);
-const entry = new EntryServices(models);
+const twit = new TwitServices(models);
+const comment = new CommentServices(models);
 
 export default {
-  user, entry,
+  user, twit, comment,
 };

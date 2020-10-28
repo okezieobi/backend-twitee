@@ -1,35 +1,30 @@
 import { Model, DataTypes, Op } from 'sequelize';
 
-export default class Entry extends Model {
-  static async createOne({ title, body, id }, transaction) {
+export default class Twit extends Model {
+  static async createOne({ content, id }, transaction) {
     return this.create({
-      title,
-      body,
+      content,
       UserId: id,
     }, {
       transaction,
     });
   }
 
-  static async updateOne({
-    title, body, UserId, id,
-  }, transaction) {
-    await this.update({ title, body }, {
-      where: {
-        [Op.and]: [
-          { UserId }, { id },
-        ],
-      },
+  static async findEvery(transaction) {
+    return this.findAndCountAll({
+      offset: 0,
+      limit: 50,
       transaction,
     });
-    return this.findOneByOwnerId({ UserId, id }, transaction);
   }
 
   static async findAllByOwnerId(id, transaction) {
-    return this.findAll({
+    return this.findAndCountAll({
       where: {
         UserId: id,
       },
+      offset: 0,
+      limit: 50,
       transaction,
     });
   }
@@ -62,12 +57,7 @@ export default class Entry extends Model {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      title: {
-        type: DataTypes.STRING(256),
-        allowNull: false,
-        notEmpty: true,
-      },
-      body: {
+      content: {
         type: DataTypes.TEXT,
         allowNull: false,
         notEmpty: true,
@@ -75,7 +65,7 @@ export default class Entry extends Model {
     },
     {
       sequelize,
-      modelName: 'Entry',
+      modelName: 'Twit',
     });
   }
 }

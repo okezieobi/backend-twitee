@@ -1,6 +1,6 @@
 import bcrypt from '../utils/bcrypt';
 
-export default class UserServices {
+export default class User {
   constructor(models) {
     this.models = models;
   }
@@ -9,7 +9,7 @@ export default class UserServices {
     return this.models.sequelize.transaction(async (t) => {
       let data;
       const userExists = await this.models.user.findByUnique(arg, t);
-      if (userExists) data = { message: 'User already exists with either email or username, please sign in', status: 406 };
+      if (userExists) data = { message: 'User already exists with provided email, please sign in or use another email', status: 406 };
       else {
         const user = await this.models.user.createOne(arg, t);
         data = { user, status: 201 };
@@ -21,13 +21,11 @@ export default class UserServices {
   async auth(arg) {
     return this.models.sequelize.transaction(async (t) => {
       let data;
-      const userExists = await this.models.user.findByUnique({
-        email: arg.user, username: arg.user,
-      }, t);
+      const userExists = await this.models.user.findByUnique(arg, t);
       if (userExists) {
         const verifyPassword = await bcrypt.compareString(userExists.password, arg.password);
         if (verifyPassword) {
-          const user = await this.models.user.findByUnique({ email: arg.user, username: arg.user }, t, ['password']);
+          const user = await this.models.user.findByUnique(arg, t, ['password']);
           data = { user, status: 200 };
         } else data = { message: 'Password provided does not match user', status: 401 };
       } else data = { message: 'User not found, please sign up by creating an account', status: 404 };

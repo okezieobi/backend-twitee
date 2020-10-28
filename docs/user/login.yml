@@ -17,10 +17,10 @@ components:        # Schema definition for request body
  schemas:
   login:
     properties:
-          user:
+          email:
             type: string
           password:
             type: string
     required:
-      - user
+      - email
       - password

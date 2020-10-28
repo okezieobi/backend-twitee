@@ -1,17 +1,17 @@
-export default class UserSchemas {
+export default class User {
   constructor(checkSchema) {
     this.validateLogin = checkSchema({
-      user: {
+      email: {
         in: ['body'],
         isLength: {
-          errorMessage: 'Email or username should be at most 256 characters long',
+          errorMessage: 'Email should be at most 256 characters long',
           options: { min: 1, max: 256 },
         },
         isString: {
-          errorMessage: 'Email or username must be string data type',
+          errorMessage: 'Email must be string data type',
         },
         exists: {
-          errorMessage: 'Email or username is required',
+          errorMessage: 'Email is required',
           options: { checkFalsy: true },
         },
       },
@@ -32,21 +32,7 @@ export default class UserSchemas {
     });
 
     this.validateSignup = checkSchema({
-      username: {
-        in: ['body'],
-        isLength: {
-          errorMessage: 'Username should be at most 256 characters long',
-          options: { min: 1, max: 256 },
-        },
-        isString: {
-          errorMessage: 'Username must be string data type',
-        },
-        exists: {
-          errorMessage: 'Username is required',
-          options: { checkFalsy: true },
-        },
-      },
-      fullName: {
+      name: {
         in: ['body'],
         isLength: {
           errorMessage: 'Full name should be at most 256 characters long',

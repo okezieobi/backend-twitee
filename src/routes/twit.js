@@ -1,6 +1,7 @@
 import controllers from '../controllers';
 import validations from '../validations';
 import middleware from '../middleware';
+import commentRoutes from './comment';
 
 export default (Router) => {
   const handleResponse = (req, res) => {
@@ -9,14 +10,17 @@ export default (Router) => {
 
   const router = Router();
 
-  router.route('/')
-    .post([...[validations.entry.create], controllers.entry.createOne], handleResponse)
-    .get([controllers.entry.findAll], handleResponse);
+  router.get('/all', controllers.twit.findAll, handleResponse);
 
-  router.use('/:id', [...[validations.entry.id], middleware.entry.findOneById]);
+  router.route('/')
+    .post([...[validations.twit.create], controllers.twit.createOne], handleResponse)
+    .get(controllers.twit.findAllByOwner, handleResponse);
+
+  router.use('/:id', [...[validations.twit.id], middleware.twit.findOneById]);
   router.route('/:id')
-    .put(controllers.entry.updateOne, handleResponse)
     .get(handleResponse);
+
+  router.use('/:id/comments', commentRoutes(Router));
 
   return router;
 };

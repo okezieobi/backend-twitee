@@ -1,10 +1,10 @@
 import services from '../services';
 import UserMiddleware from './user';
-import EntryMiddleware from './entry';
+import TwitMiddleware from './twit';
 
 const user = new UserMiddleware(services);
-const entry = new EntryMiddleware(services);
+const twit = new TwitMiddleware(services);
 
 export default {
-  user, entry,
+  user, twit,
 };
