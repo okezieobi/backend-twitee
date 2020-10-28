@@ -1,5 +1,4 @@
-# serve-twitee
-REST API for Twitee, yet another twitter clone
+#### REST API for Twitee, yet another twitter clone
 
 ## client
 https://github.com/okezieobi/frontend-twitee
