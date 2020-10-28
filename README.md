@@ -2,6 +2,7 @@
 REST API for Twitee, yet another twitter clone
 
 ## client
+https://github.com/okezieobi/frontend-twitee
 
 
 ## Live API docs
