@@ -1,41 +1,23 @@
-import { Model, DataTypes, Op } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 
-export default class Twit extends Model {
-  static async createOne({ content, id }, transaction) {
+export default class Comment extends Model {
+  static async createOne({ content, UserId, TwitId }, transaction) {
     return this.create({
       content,
-      UserId: id,
+      UserId,
+      TwitId,
     }, {
       transaction,
     });
   }
 
-  static async findEvery(transaction) {
-    return this.findAndCountAll({
-      offset: 0,
-      limit: 50,
-      transaction,
-    });
-  }
-
-  static async findAllByOwnerId(id, transaction) {
+  static async findByTwit(id, transaction) {
     return this.findAndCountAll({
       where: {
-        UserId: id,
+        TwitId: id,
       },
       offset: 0,
       limit: 50,
-      transaction,
-    });
-  }
-
-  static async findOneByOwnerId({ UserId, id }, transaction) {
-    return this.findOne({
-      where: {
-        [Op.and]: [
-          { UserId }, { id },
-        ],
-      },
       transaction,
     });
   }
@@ -44,6 +26,12 @@ export default class Twit extends Model {
     this.belongsToUser = this.belongsTo(models.user, {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+      },
+    });
+
+    this.belongsToTwit = this.belongsTo(models.twit, {
       foreignKey: {
         allowNull: false,
       },
@@ -65,7 +53,7 @@ export default class Twit extends Model {
     },
     {
       sequelize,
-      modelName: 'Twit',
+      modelName: 'Comment',
     });
   }
 }

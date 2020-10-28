@@ -10,6 +10,13 @@ export default class EntryServices {
     });
   }
 
+  async findEvery() {
+    return this.models.sequelize.transaction(async (t) => {
+      const twits = await this.models.twit.findEvery(t);
+      return { twits, status: 200 };
+    });
+  }
+
   async findByOwner(arg) {
     return this.models.sequelize.transaction(async (t) => {
       const twits = await this.models.twit.findAllByOwnerId(arg, t);
