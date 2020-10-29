@@ -6,28 +6,24 @@ export default class Comment {
   }
 
   async createOne({ body: { content } }, res, next) {
-    try {
-      const data = await this.services.create({
-        content,
-        UserId: res.locals.userId,
-        TwitId: res.locals.data.twit.id,
-      });
-      if (data.message) next(data);
+    await this.services.create({
+      content,
+      UserId: res.locals.userId,
+      TwitId: res.locals.data.twit.id,
+    }).then((data) => {
+      if (data.message) throw data;
       else {
         res.locals.data = data;
         next();
       }
-    } catch (err) {
-      next(err);
-    }
+    }).catch(next);
   }
 
   async findAll(req, res, next) {
-    try {
-      res.locals.data = await this.services.findByTwit(res.locals.data.twit.id);
-      next();
-    } catch (err) {
-      next(err);
-    }
+    await this.services.findByTwit(res.locals.data.twit.id)
+      .then((data) => {
+        res.locals.data = data;
+        next();
+      }).catch(next);
   }
 }

@@ -12,7 +12,7 @@ export default class Twit {
 
   async findEvery() {
     return this.models.sequelize.transaction(async (t) => {
-      const twits = await this.models.twit.findEvery(t);
+      const twits = await this.models.twit.findEvery(t, this.models);
       return { twits, status: 200 };
     });
   }

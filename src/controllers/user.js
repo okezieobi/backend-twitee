@@ -6,28 +6,22 @@ export default class User {
   }
 
   async signup({ body }, res, next) {
-    try {
-      const data = await this.services.create(body);
-      if (data.message) next(data);
+    await this.services.create(body).then((data) => {
+      if (data.message) throw data;
       else {
         res.locals.data = data;
         next();
       }
-    } catch (err) {
-      next(err);
-    }
+    }).catch(next);
   }
 
   async login({ body }, res, next) {
-    try {
-      const data = await this.services.auth(body);
-      if (data.message) next(data);
+    await this.services.auth(body).then((data) => {
+      if (data.message) throw data;
       else {
         res.locals.data = data;
         next();
       }
-    } catch (err) {
-      next(err);
-    }
+    }).catch(next);
   }
 }

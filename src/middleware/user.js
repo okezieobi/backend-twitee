@@ -9,12 +9,13 @@ export default class User {
   async findById({ headers }, res, next) {
     try {
       const { id } = jwt.verify(headers);
-      const user = await this.services.authJWT(id);
-      if (user.message) next(user);
-      else {
-        res.locals.userId = id;
-        next();
-      }
+      await this.services.authJWT(id).then((data) => {
+        if (data.message) throw data;
+        else {
+          res.locals.userId = id;
+          next();
+        }
+      });
     } catch (err) {
       next(err);
     }

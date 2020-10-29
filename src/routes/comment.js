@@ -1,10 +1,6 @@
-import controllers from '../controllers';
-import validations from '../validations';
-
-export default (Router) => {
-  const handleResponse = (req, res) => {
-    res.status(res.locals.data.status).send({ data: res.locals.data });
-  };
+export default ({
+  Router, handleResponse, validations, controllers,
+}) => {
   const router = Router();
 
   router.route('/')

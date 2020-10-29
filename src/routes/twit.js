@@ -1,13 +1,9 @@
-import controllers from '../controllers';
-import validations from '../validations';
-import middleware from '../middleware';
 import commentRoutes from './comment';
 
-export default (Router) => {
-  const handleResponse = (req, res) => {
-    res.status(res.locals.data.status).send({ data: res.locals.data });
-  };
-
+export default ({
+  Router, handleResponse, controllers,
+  validations, middleware,
+}) => {
   const router = Router();
 
   router.get('/all', controllers.twit.findAll, handleResponse);
@@ -20,7 +16,9 @@ export default (Router) => {
   router.route('/:id')
     .get(handleResponse);
 
-  router.use('/:id/comments', commentRoutes(Router));
+  router.use('/:id/comments', commentRoutes({
+    Router, handleResponse, validations, controllers,
+  }));
 
   return router;
 };

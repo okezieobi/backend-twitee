@@ -7,35 +7,28 @@ export default class Twit {
   }
 
   async createOne({ body: { content } }, res, next) {
-    try {
-      const data = await this.services.create({ content, id: res.locals.userId });
-      if (data.message) next(data);
-      else {
-        res.locals.data = data;
-        next();
-      }
-    } catch (err) {
-      next(err);
-    }
+    await this.services.create({ content, id: res.locals.userId })
+      .then((data) => {
+        if (data.message) throw data;
+        else {
+          res.locals.data = data;
+          next();
+        }
+      }).catch(next);
   }
 
   async findAllByOwner(req, res, next) {
-    try {
-      const data = await this.services.findByOwner(res.locals.userId);
-      res.locals.data = data;
-      next();
-    } catch (err) {
-      next(err);
-    }
+    await this.services.findByOwner(res.locals.userId)
+      .then((data) => {
+        res.locals.data = data;
+        next();
+      }).catch(next);
   }
 
   async findAll(req, res, next) {
-    try {
-      const data = await this.services.findEvery();
+    await this.services.findEvery().then((data) => {
       res.locals.data = data;
       next();
-    } catch (err) {
-      next(err);
-    }
+    }).catch(next);
   }
 }

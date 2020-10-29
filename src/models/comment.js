@@ -24,6 +24,7 @@ export default class Comment extends Model {
 
   static associate(models) {
     this.belongsToUser = this.belongsTo(models.user, {
+      as: 'commentBelongsToUser',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: {
@@ -32,6 +33,7 @@ export default class Comment extends Model {
     });
 
     this.belongsToTwit = this.belongsTo(models.twit, {
+      as: 'twitBelongsComment',
       foreignKey: {
         allowNull: false,
       },

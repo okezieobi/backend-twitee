@@ -37,16 +37,6 @@ export default class User extends Model {
     });
   }
 
-  static associate(models) {
-    this.hasManyEntries = this.hasMany(models.twit, {
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-      },
-    });
-  }
-
   static init(sequelize) {
     return super.init(
       {

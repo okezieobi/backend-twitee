@@ -10,8 +10,9 @@ export default class Twit extends Model {
     });
   }
 
-  static async findEvery(transaction) {
+  static async findEvery(transaction, { user }) {
     return this.findAndCountAll({
+      include: { model: user, attributes: ['name'] },
       offset: 0,
       limit: 50,
       transaction,
