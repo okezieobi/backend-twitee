@@ -11,20 +11,23 @@ export default class Comment extends Model {
     });
   }
 
-  static async findByTwit(id, transaction) {
+  static async findByTwit(id, { user }, transaction) {
     return this.findAndCountAll({
+      include: { model: user, attributes: ['name', 'email'] },
       where: {
         TwitId: id,
       },
       offset: 0,
       limit: 50,
       transaction,
+      attributes: {
+        exclude: ['UserId', 'TwitId'],
+      },
     });
   }
 
   static associate(models) {
     this.belongsToUser = this.belongsTo(models.user, {
-      as: 'commentBelongsToUser',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: {
@@ -33,7 +36,6 @@ export default class Comment extends Model {
     });
 
     this.belongsToTwit = this.belongsTo(models.twit, {
-      as: 'twitBelongsComment',
       foreignKey: {
         allowNull: false,
       },

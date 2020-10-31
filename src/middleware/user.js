@@ -7,17 +7,15 @@ export default class User {
   }
 
   async findById({ headers }, res, next) {
-    try {
-      const { id } = jwt.verify(headers);
-      await this.services.authJWT(id).then((data) => {
-        if (data.message) throw data;
-        else {
-          res.locals.userId = id;
-          next();
-        }
-      });
-    } catch (err) {
-      next(err);
-    }
+    await jwt.verify(headers)
+      .then(async ({ id }) => {
+        await this.services.authJWT(id).then((data) => {
+          if (data.message) throw data;
+          else {
+            res.locals.userId = id;
+            next();
+          }
+        });
+      }).catch(next);
   }
 }

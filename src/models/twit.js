@@ -12,10 +12,13 @@ export default class Twit extends Model {
 
   static async findEvery({ user }, transaction) {
     return this.findAndCountAll({
-      include: { model: user, attributes: ['name'] },
+      include: { model: user, attributes: ['name', 'email'] },
       offset: 0,
       limit: 50,
       transaction,
+      attributes: {
+        exclude: ['UserId'],
+      },
     });
   }
 

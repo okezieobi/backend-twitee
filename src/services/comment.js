@@ -12,7 +12,7 @@ export default class Comment {
 
   async findByTwit(arg) {
     return this.models.sequelize.transaction(async (t) => {
-      const comments = await this.models.comment.findByTwit(arg, t);
+      const comments = await this.models.comment.findByTwit(arg, this.models, t);
       return { comments, status: 200 };
     });
   }

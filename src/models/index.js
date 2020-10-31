@@ -8,6 +8,7 @@ import env from '../utils/env';
 const sequelize = new Sequelize(env.databaseURL, { ssl: true, dialect: 'postgres', logging: false });
 // pass your sequelize config here
 
+// models are ordered in cascading order
 const models = { user: UserModel, twit: TwitModel, comment: CommentModel };
 
 Object.values(models).forEach((model) => model.init(sequelize));

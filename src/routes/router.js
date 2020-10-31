@@ -9,9 +9,9 @@ import jwt from '../utils/jwt';
 
 const router = Router();
 
-const handleResponse = (req, res) => {
+const handleResponse = async (req, res) => {
   if (res.locals.data.user) {
-    res.locals.data.token = jwt.generate(res.locals.data.user);
+    res.locals.data.token = await jwt.generate(res.locals.data.user);
     res.status(res.locals.data.status).set('token', res.locals.data.token).send({ data: res.locals.data });
   } else {
     res.status(res.locals.data.status).send({ data: res.locals.data });

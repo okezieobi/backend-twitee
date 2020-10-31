@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import env from './env';
 
 export default class JWT {
-  static generate({ id }) {
+  static async generate({ id }) {
     return jwt.sign({
       id,
     }, env.jwtSecret, {
@@ -11,7 +11,7 @@ export default class JWT {
     });
   }
 
-  static verify({ token }) {
+  static async verify({ token }) {
     return jwt.verify(token, env.jwtSecret);
   }
 }
