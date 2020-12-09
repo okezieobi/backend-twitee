@@ -1,13 +1,14 @@
 export default class Twit {
-  constructor(services) {
-    this.services = services.twit;
+  constructor({ twit }) {
+    this.services = twit;
     this.createOne = this.createOne.bind(this);
     this.findAllByOwner = this.findAllByOwner.bind(this);
     this.findAll = this.findAll.bind(this);
+    this.findOneById = this.findOneById.bind(this);
   }
 
   async createOne({ body: { content } }, res, next) {
-    await this.services.create({ content, id: res.locals.userId })
+    await this.services.create({ content, UserId: res.locals.userId })
       .then((data) => {
         if (data.message) throw data;
         else {
@@ -18,7 +19,7 @@ export default class Twit {
   }
 
   async findAllByOwner(req, res, next) {
-    await this.services.findByOwner(res.locals.userId)
+    await this.services.findByOwner({ UserId: res.locals.userId })
       .then((data) => {
         res.locals.data = data;
         next();
@@ -30,5 +31,16 @@ export default class Twit {
       res.locals.data = data;
       next();
     }).catch(next);
+  }
+
+  async findOneById({ params: { id } }, res, next) {
+    await this.services.findOneByOwner({ UserId: res.locals.userId, id })
+      .then((data) => {
+        if (data.message) throw data;
+        else {
+          res.locals.data = data;
+          next();
+        }
+      }).catch(next);
   }
 }

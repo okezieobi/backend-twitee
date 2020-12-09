@@ -1,82 +1,58 @@
-import { Model, DataTypes } from 'sequelize';
-
-import bcryptUtil from '../utils/bcrypt';
+import { Model } from 'sequelize';
+import bcrypt from 'bcrypt';
 
 export default class User extends Model {
-  static async createOne(user, transaction) {
-    await this.create(user, { transaction });
-    return this.findOne({
-      where: {
-        email: user.email,
-      },
-      transaction,
-      attributes: {
-        exclude: ['password', 'updatedAt'],
-      },
-    });
+  static async verifyPassword(password, hashedPassword) {
+    return bcrypt.compare(password, hashedPassword);
   }
 
-  static async findByUnique({ email }, transaction, exclude = []) {
-    return this.findOne({
-      where: {
-        email,
+  static columns(DataTypes) {
+    return {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
       },
-      transaction,
-      attributes: {
-        exclude,
+      name: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+        notEmpty: true,
       },
-    });
+      username: {
+        type: DataTypes.STRING(256),
+        get() {
+          const atIndex = this.email.indexOf('@');
+          return this.email.slice(0, atIndex);
+        },
+      },
+      email: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+        unique: true,
+        notEmpty: true,
+        isEmail: true,
+      },
+      password: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        notEmpty: true,
+        set(value) {
+          const salt = bcrypt.genSaltSync();
+          this.setDataValue('password', bcrypt.hashSync(value, salt));
+        },
+      },
+      type: {
+        type: DataTypes.TEXT,
+        defaultValue: 'Client',
+        isIn: [['Client', 'Admin']],
+      },
+    };
   }
 
-  static async findById(id, transaction) {
-    return this.findByPk(id, {
-      transaction,
-      attributes: {
-        exclude: ['password'],
-      },
-    });
-  }
-
-  static init(sequelize) {
+  static init(sequelize, DataTypes) {
     return super.init(
       {
-        id: {
-          type: DataTypes.UUID,
-          defaultValue: DataTypes.UUIDV4,
-          primaryKey: true,
-        },
-        name: {
-          type: DataTypes.STRING(256),
-          allowNull: false,
-          notEmpty: true,
-        },
-        username: {
-          type: DataTypes.STRING(256),
-          get() {
-            const atIndex = this.email.indexOf('@');
-            return this.email.slice(0, atIndex);
-          },
-        },
-        email: {
-          type: DataTypes.STRING(256),
-          allowNull: false,
-          unique: true,
-          notEmpty: true,
-          isEmail: true,
-        },
-        password: {
-          type: DataTypes.TEXT,
-          allowNull: false,
-          notEmpty: true,
-          set(value) {
-            this.setDataValue('password', bcryptUtil.hashString(value));
-          },
-        },
-        type: {
-          type: DataTypes.TEXT,
-          defaultValue: 'Client',
-          isIn: [['Client', 'Admin']],
-        },
+        ...this.columns(DataTypes),
       },
       {
         sequelize,

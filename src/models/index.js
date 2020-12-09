@@ -1,4 +1,5 @@
-import { Sequelize } from 'sequelize';
+/* eslint-disable no-console */
+import { Sequelize, DataTypes } from 'sequelize';
 
 import UserModel from './user';
 import TwitModel from './twit';
@@ -11,7 +12,7 @@ const sequelize = new Sequelize(env.databaseURL, { ssl: true, dialect: 'postgres
 // models are ordered in cascading order
 const models = { user: UserModel, twit: TwitModel, comment: CommentModel };
 
-Object.values(models).forEach((model) => model.init(sequelize));
+Object.values(models).forEach((model) => model.init(sequelize, DataTypes));
 
 // Run `.associate` if it exists,
 // ie create relationships in the ORM
@@ -20,17 +21,17 @@ Object.values(models)
   .forEach((model) => model.associate(models));
 
 (async () => {
-  await sequelize.authenticate();
-  /*
-  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'production') {
+    await sequelize.authenticate();
+  } else {
+    await sequelize.authenticate().then(() => console.log('Database connection successful'));
     await sequelize.sync({ force: true, match: /dev$/ });
   }
-  */
-  // no sequelize.sync() here, use migrations after writing models for tests and production
-  await sequelize.sync({ force: true });
+  // no sequelize.sync(); use umzug migrations after writing models
 })();
 
 export default {
   ...models,
   sequelize,
+  Sequelize,
 };

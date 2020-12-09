@@ -1,21 +1,7 @@
-import jwt from '../utils/jwt';
-
-export default class User {
-  constructor(services) {
-    this.services = services.user;
-    this.findById = this.findById.bind(this);
-  }
-
-  async findById({ headers }, res, next) {
-    await jwt.verify(headers)
-      .then(async ({ id }) => {
-        await this.services.authJWT(id).then((data) => {
-          if (data.message) throw data;
-          else {
-            res.locals.userId = id;
-            next();
-          }
-        });
-      }).catch(next);
+export default class UserMiddleWare {
+  constructor(validations, controllers) {
+    this.signup = [...validations.user.signup, controllers.user.signup, controllers.user.setJWT];
+    this.login = [...validations.user.login, controllers.user.login, controllers.user.setJWT];
+    this.jwt = [...validations.user.jwt, controllers.user.verifyJWT, controllers.user.findById];
   }
 }

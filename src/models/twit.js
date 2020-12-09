@@ -1,49 +1,6 @@
-import { Model, DataTypes, Op } from 'sequelize';
+import { Model } from 'sequelize';
 
 export default class Twit extends Model {
-  static async createOne({ content, id }, transaction) {
-    return this.create({
-      content,
-      UserId: id,
-    }, {
-      transaction,
-    });
-  }
-
-  static async findEvery({ user }, transaction) {
-    return this.findAndCountAll({
-      include: { model: user, attributes: ['name', 'email'] },
-      offset: 0,
-      limit: 50,
-      transaction,
-      attributes: {
-        exclude: ['UserId'],
-      },
-    });
-  }
-
-  static async findAllByOwnerId(id, transaction) {
-    return this.findAndCountAll({
-      where: {
-        UserId: id,
-      },
-      offset: 0,
-      limit: 50,
-      transaction,
-    });
-  }
-
-  static async findOneByOwnerId({ UserId, id }, transaction) {
-    return this.findOne({
-      where: {
-        [Op.and]: [
-          { UserId }, { id },
-        ],
-      },
-      transaction,
-    });
-  }
-
   static associate(models) {
     this.belongsToUser = this.belongsTo(models.user, {
       onDelete: 'CASCADE',
@@ -54,8 +11,8 @@ export default class Twit extends Model {
     });
   }
 
-  static init(sequelize) {
-    return super.init({
+  static columns(DataTypes) {
+    return {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -66,6 +23,12 @@ export default class Twit extends Model {
         allowNull: false,
         notEmpty: true,
       },
+    };
+  }
+
+  static init(sequelize, DataTypes) {
+    return super.init({
+      ...this.columns(DataTypes),
     },
     {
       sequelize,

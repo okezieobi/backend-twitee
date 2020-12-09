@@ -1,24 +1,27 @@
-import commentRoutes from './comment';
+// import commentRoutes from './comment';
 
-export default ({
-  Router, handleResponse, controllers,
-  validations, middleware,
+export default (Router, handleResponse, {
+  twit: {
+    findAll, createOne, findAllByOwner, verifyOne,
+  },
 }) => {
   const router = Router();
 
-  router.get('/all', controllers.twit.findAll, handleResponse);
+  router.get('/all', findAll, handleResponse);
 
   router.route('/')
-    .post([...[validations.twit.create], controllers.twit.createOne], handleResponse)
-    .get(controllers.twit.findAllByOwner, handleResponse);
+    .post(createOne, handleResponse)
+    .get(findAllByOwner, handleResponse);
 
-  router.use('/:id', [...[validations.twit.id], middleware.twit.findOneById]);
+  router.use('/:id', verifyOne);
   router.route('/:id')
     .get(handleResponse);
 
+  /*
   router.use('/:id/comments', commentRoutes({
     Router, handleResponse, validations, controllers,
   }));
+  */
 
   return router;
 };

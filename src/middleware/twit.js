@@ -1,17 +1,8 @@
 export default class Twit {
-  constructor(services) {
-    this.services = services;
-    this.findOneById = this.findOneById.bind(this);
-  }
-
-  async findOneById({ params: { id } }, res, next) {
-    await this.services.twit.findOneByOwner({ UserId: res.locals.userId, id })
-      .then((data) => {
-        if (data.message) throw data;
-        else {
-          res.locals.data = data;
-          next();
-        }
-      }).catch(next);
+  constructor(validations, controllers) {
+    this.findAll = controllers.twit.findAll;
+    this.createOne = [...validations.twit.create, controllers.twit.createOne];
+    this.findAllByOwner = controllers.twit.findAllByOwner;
+    this.verifyOne = [...validations.twit.id, controllers.twit.findOneById];
   }
 }
