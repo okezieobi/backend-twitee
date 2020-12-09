@@ -1,33 +1,8 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model } from 'sequelize';
 
 export default class Comment extends Model {
-  static async createOne({ content, UserId, TwitId }, transaction) {
-    return this.create({
-      content,
-      UserId,
-      TwitId,
-    }, {
-      transaction,
-    });
-  }
-
-  static async findByTwit(id, { user }, transaction) {
-    return this.findAndCountAll({
-      include: { model: user, attributes: ['name', 'email'] },
-      where: {
-        TwitId: id,
-      },
-      offset: 0,
-      limit: 50,
-      transaction,
-      attributes: {
-        exclude: ['UserId', 'TwitId'],
-      },
-    });
-  }
-
-  static associate(models) {
-    this.belongsToUser = this.belongsTo(models.user, {
+  static associate({ user, twit }) {
+    this.belongsToUser = this.belongsTo(user, {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: {
@@ -35,15 +10,15 @@ export default class Comment extends Model {
       },
     });
 
-    this.belongsToTwit = this.belongsTo(models.twit, {
+    this.belongsToTwit = this.belongsTo(twit, {
       foreignKey: {
         allowNull: false,
       },
     });
   }
 
-  static init(sequelize) {
-    return super.init({
+  static columns(DataTypes) {
+    return {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
@@ -54,6 +29,12 @@ export default class Comment extends Model {
         allowNull: false,
         notEmpty: true,
       },
+    };
+  }
+
+  static init(sequelize, DataTypes) {
+    return super.init({
+      ...this.columns(DataTypes),
     },
     {
       sequelize,

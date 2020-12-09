@@ -1,8 +1,8 @@
 import { Model } from 'sequelize';
 
 export default class Twit extends Model {
-  static associate(models) {
-    this.belongsToUser = this.belongsTo(models.user, {
+  static associate({ user }) {
+    this.belongsToUser = this.belongsTo(user, {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       foreignKey: {

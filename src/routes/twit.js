@@ -1,9 +1,9 @@
-// import commentRoutes from './comment';
+import commentRoutes from './comment';
 
 export default (Router, handleResponse, {
   twit: {
     findAll, createOne, findAllByOwner, verifyOne,
-  },
+  }, comment,
 }) => {
   const router = Router();
 
@@ -17,11 +17,7 @@ export default (Router, handleResponse, {
   router.route('/:id')
     .get(handleResponse);
 
-  /*
-  router.use('/:id/comments', commentRoutes({
-    Router, handleResponse, validations, controllers,
-  }));
-  */
+  router.use('/:id/comments', commentRoutes(Router, handleResponse, comment));
 
   return router;
 };

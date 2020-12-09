@@ -1,18 +1,37 @@
 export default class Comment {
-  constructor(models) {
-    this.models = models;
+  constructor({ comment, user, sequelize }) {
+    this.model = comment;
+    this.sequelize = sequelize;
+    this.userModel = user;
   }
 
-  async create(arg) {
-    return this.models.sequelize.transaction(async (t) => {
-      const comment = await this.models.comment.createOne(arg, t);
+  async create({ content, UserId, TwitId }) {
+    return this.sequelize.transaction(async (t) => {
+      const comment = await this.model.create({
+        content,
+        UserId,
+        TwitId,
+      }, {
+        transaction: t,
+      });
       return { comment, status: 201 };
     });
   }
 
-  async findByTwit(arg) {
-    return this.models.sequelize.transaction(async (t) => {
-      const comments = await this.models.comment.findByTwit(arg, this.models, t);
+  async findByTwit(TwitId) {
+    return this.sequelize.transaction(async (t) => {
+      const comments = await this.model.findAndCountAll({
+        include: { model: this.userModel, attributes: ['name', 'email'] },
+        where: {
+          TwitId,
+        },
+        offset: 0,
+        limit: 50,
+        transaction: t,
+        attributes: {
+          exclude: ['UserId', 'TwitId'],
+        },
+      });
       return { comments, status: 200 };
     });
   }

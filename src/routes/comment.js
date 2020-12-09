@@ -1,11 +1,9 @@
-export default ({
-  Router, handleResponse, validations, controllers,
-}) => {
+export default (Router, handleResponse, { createOne, findAll }) => {
   const router = Router();
 
   router.route('/')
-    .post([...[validations.comment.create], controllers.comment.createOne], handleResponse)
-    .get(controllers.comment.findAll, handleResponse);
+    .post(createOne, handleResponse)
+    .get(findAll, handleResponse);
 
   return router;
 };

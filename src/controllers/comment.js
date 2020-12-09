@@ -1,6 +1,6 @@
 export default class Comment {
-  constructor(services) {
-    this.services = services.comment;
+  constructor({ comment }) {
+    this.services = comment;
     this.createOne = this.createOne.bind(this);
     this.findAll = this.findAll.bind(this);
   }
