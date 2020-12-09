@@ -5,6 +5,7 @@ export default class Twit {
     this.findAllByOwner = this.findAllByOwner.bind(this);
     this.findAll = this.findAll.bind(this);
     this.findOneById = this.findOneById.bind(this);
+    this.deleteOneByOwner = this.deleteOneByOwner.bind(this);
   }
 
   async createOne({ body: { content } }, res, next) {
@@ -41,6 +42,14 @@ export default class Twit {
           res.locals.data = data;
           next();
         }
+      }).catch(next);
+  }
+
+  async deleteOneByOwner({ params: { id } }, res, next) {
+    await this.services.deleteOneByOwner({ UserId: res.locals.userId, id })
+      .then((data) => {
+        res.locals.data = data;
+        next();
       }).catch(next);
   }
 }

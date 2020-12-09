@@ -22,7 +22,8 @@ export default class User extends Model {
         type: DataTypes.STRING(256),
         get() {
           const atIndex = this.email.indexOf('@');
-          return this.email.slice(0, atIndex);
+          const name = this.email.slice(0, atIndex);
+          return name.charAt(0).toUpperCase() + name.slice(1);
         },
       },
       email: {

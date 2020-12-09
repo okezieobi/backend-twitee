@@ -65,4 +65,18 @@ export default class Twit {
       return data;
     });
   }
+
+  async deleteOneByOwner({ UserId, id }) {
+    return this.sequelize.transaction(async (t) => {
+      await this.model.destroy({
+        where: {
+          [this.Sequelize.Op.and]: [
+            { UserId }, { id },
+          ],
+        },
+        transaction: t,
+      });
+      return { status: 204 };
+    });
+  }
 }

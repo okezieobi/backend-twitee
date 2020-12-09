@@ -4,5 +4,6 @@ export default class Twit {
     this.createOne = [...validations.twit.create, controllers.twit.createOne];
     this.findAllByOwner = controllers.twit.findAllByOwner;
     this.verifyOne = [...validations.twit.id, controllers.twit.findOneById];
+    this.deleteOneByOwner = controllers.twit.deleteOneByOwner;
   }
 }
