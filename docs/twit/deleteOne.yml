@@ -1,0 +1,18 @@
+paths:
+  /twits/{id}:                # path of the user from your endpoint
+    delete:                 # endpoint request type (post request)
+      tags:               # Tag property
+        - Twit            # Value of the tag
+      summary: deletes a specific, associated twit of an authenticated user
+      security:
+       - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of twit to be deleted.
+          schema:
+            type: uuid
+      responses:          # server responses
+        204:
+          description: An empty response
