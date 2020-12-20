@@ -1,8 +1,9 @@
 export default class Comment {
-  constructor({ comment }) {
+  constructor({ comment }, handleServiceOutput) {
     this.services = comment;
     this.createOne = this.createOne.bind(this);
     this.findAll = this.findAll.bind(this);
+    this.handleServiceOutput = handleServiceOutput;
   }
 
   async createOne({ body: { content } }, res, next) {
@@ -10,20 +11,11 @@ export default class Comment {
       content,
       UserId: res.locals.userId,
       TwitId: res.locals.data.twit.id,
-    }).then((data) => {
-      if (data.message) throw data;
-      else {
-        res.locals.data = data;
-        next();
-      }
-    }).catch(next);
+    }).then((data) => this.handleServiceOutput(data, res, next)).catch(next);
   }
 
   async findAll(req, res, next) {
     await this.services.findByTwit(res.locals.data.twit.id)
-      .then((data) => {
-        res.locals.data = data;
-        next();
-      }).catch(next);
+      .then((data) => this.handleServiceOutput(data, res, next)).catch(next);
   }
 }

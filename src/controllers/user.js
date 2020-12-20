@@ -1,5 +1,5 @@
 export default class User {
-  constructor({ user }, jwt) {
+  constructor({ user }, handleServiceOutput, jwt) {
     this.services = user;
     this.jwt = jwt;
     this.login = this.login.bind(this);
@@ -7,26 +7,17 @@ export default class User {
     this.findById = this.findById.bind(this);
     this.setJWT = this.setJWT.bind(this);
     this.verifyJWT = this.verifyJWT.bind(this);
+    this.handleServiceOutput = handleServiceOutput;
   }
 
   async signup({ body }, res, next) {
-    await this.services.create(body).then((data) => {
-      if (data.message) throw data;
-      else {
-        res.locals.data = data;
-        next();
-      }
-    }).catch(next);
+    await this.services.create(body)
+      .then((data) => this.handleServiceOutput(data, res, next)).catch(next);
   }
 
   async login({ body }, res, next) {
-    await this.services.auth(body).then((data) => {
-      if (data.message) throw data;
-      else {
-        res.locals.data = data;
-        next();
-      }
-    }).catch(next);
+    await this.services.auth(body)
+      .then((data) => this.handleServiceOutput(data, res, next)).catch(next);
   }
 
   async findById(req, res, next) {
